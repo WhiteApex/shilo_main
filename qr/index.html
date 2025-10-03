@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="robots" content="noindex,nofollow" />
+  <title>Открываю Telegram…</title>
+
+  <!-- Yandex.Metrica -->
+  <script>
+    (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+    m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0];
+    k.async=1;k.src=r;a.parentNode.insertBefore(k,a)})(window,document,"script",
+    "https://mc.yandex.ru/metrika/tag.js","ym");
+
+    ym(104374089, "init", {
+      clickmap:true,
+      trackLinks:true,
+      accurateTrackBounce:true,
+      webvisor:true
+    });
+  </script>
+  <noscript>
+    <div><img src="https://mc.yandex.ru/watch/104374089" style="position:absolute; left:-9999px;" alt="" /></div>
+  </noscript>
+  <!-- /Yandex.Metrica -->
+
+  <style>
+    body {
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      min-height:100vh;
+      margin:0;
+    }
+    .card { text-align:center; max-width:480px; padding:24px; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Открываю Telegram…</h1>
+    <p>Если переход не случился, <a id="fallback" href="#">нажмите здесь</a>.</p>
+  </div>
+
+  <script>
+    const TG_URL = "https://t.me/shilodevelopment"; // ссылка на твой канал
+
+    // Параметры из URL
+    const qs = new URLSearchParams(location.search);
+    const src      = qs.get("src") || qs.get("utm_source") || "qr_default";
+    const campaign = qs.get("utm_campaign") || "";
+    const content  = qs.get("utm_content")  || "";
+    const medium   = qs.get("utm_medium")   || "qr";
+    const term     = qs.get("utm_term")     || "";
+
+    // Метрика: параметры, цель и виртуальный хит
+    ym(104374089, "params", { src, campaign, content, medium, term });
+    ym(104374089, "reachGoal", "to_telegram", { src });
+
+    const virtualPath = `/to-telegram?src=${encodeURIComponent(src)}`
+      + (campaign ? `&utm_campaign=${encodeURIComponent(campaign)}` : "")
+      + (content  ? `&utm_content=${encodeURIComponent(content)}`   : "")
+      + (medium   ? `&utm_medium=${encodeURIComponent(medium)}`     : "")
+      + (term     ? `&utm_term=${encodeURIComponent(term)}`         : "");
+    ym(104374089, "hit", virtualPath, { referer: document.referrer });
+
+    // Редирект
+    const go = () => { window.location.replace(TG_URL); };
+    document.getElementById("fallback").href = TG_URL;
+    setTimeout(go, 600);
+    window.addEventListener("load", () => {
+      setTimeout(() => { try { go(); } catch(e){} }, 300);
+    });
+  </script>
+</body>
+</html>
